@@ -1,0 +1,228 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-steel: var(--steel);
+  --color-blood: var(--blood);
+  --color-blood-strong: var(--blood-strong);
+  --color-border-strong: var(--border-strong);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-barlow);
+
+  --color-ring: var(--ring);
+  --color-border: var(--border);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/*
+ * GRIMDARKASCENT
+ * Clean 2D Grimdark Editorial System.
+ * Dark-only palette. Locked by design specification.
+ * Background #0B0D0F / Dark Surface #111518 / Elevated Dark #171B1F
+ * Bone Text #E8E3D9 / Muted Text #999B9E / Steel #62686D / Blood Accent #C43A32
+ */
+:root {
+  --radius: 2px;
+
+  --background: #0b0d0f;
+  --foreground: #e8e3d9;
+  --surface: #111518;
+  --surface-2: #171b1f;
+  --steel: #62686d;
+  --blood: #c43a32;
+  --blood-strong: #d94a40;
+  --border: rgba(232, 227, 217, 0.12);
+  --border-strong: rgba(232, 227, 217, 0.22);
+
+  --primary: #c43a32;
+  --primary-foreground: #f5efe4;
+  --muted: #171b1f;
+  --muted-foreground: #999b9e;
+  --ring: rgba(196, 58, 50, 0.6);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01" on;
+    overflow-x: clip;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: rgba(196, 58, 50, 0.45);
+    color: #f5efe4;
+  }
+
+  /* Restrained dark scrollbar */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #262c33 #0b0d0f;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0b0d0f;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #262c33;
+    border: 2px solid #0b0d0f;
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333b44;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--blood);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-contrast: more) {
+    :root {
+      --border: rgba(232, 227, 217, 0.32);
+      --border-strong: rgba(232, 227, 217, 0.48);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .grain-overlay {
+      display: none;
+    }
+
+    * {
+      backdrop-filter: none !important;
+    }
+
+    header {
+      background-color: var(--background) !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Fixed, non-interactive film grain overlay */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Subtle slow cinematic drift for hero and CTA */
+@media (prefers-reduced-motion: no-preference) {
+  .drift-slow {
+    animation: drift-slow 28s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes drift-slow {
+    from {
+      transform: scale(1.01) translateY(0);
+    }
+    to {
+      transform: scale(1.04) translateY(-1%);
+    }
+  }
+
+  .drift-pan {
+    animation: drift-pan 32s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  @keyframes drift-pan {
+    from {
+      transform: scale(1.02) translateX(-1%);
+    }
+    to {
+      transform: scale(1.02) translateX(1%);
+    }
+  }
+}
+
+@media print {
+  .grain-overlay,
+  header,
+  [data-back-to-top] {
+    display: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  .text-foreground,
+  h1,
+  h2,
+  h3 {
+    color: #111111 !important;
+  }
+
+  .text-muted-foreground,
+  .text-steel {
+    color: #444444 !important;
+  }
+
+  .text-blood,
+  .text-blood-strong {
+    color: #8a2620 !important;
+  }
+
+  * {
+    border-color: #dddddd !important;
+    box-shadow: none !important;
+  }
+
+  a[href^="https://www.youtube.com"] {
+    break-inside: avoid;
+  }
+}

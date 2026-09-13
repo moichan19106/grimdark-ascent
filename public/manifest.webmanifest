@@ -1,0 +1,31 @@
+{
+  "name": "GrimdarkAscent | Immersive Warhammer 40K POV Stories",
+  "short_name": "GrimdarkAscent",
+  "description": "Immersive, canon-conscious Warhammer 40K stories exploring the lives, ranks, factions and fates of the 41st Millennium.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#0B0D0F",
+  "theme_color": "#0B0D0F",
+  "categories": ["entertainment"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
