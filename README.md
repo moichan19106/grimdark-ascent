@@ -1,188 +1,186 @@
-# GrimdarkAscent | The Grimdark Archive
+# 💀 GRIMDARKASCENT // HƯỚNG DẪN BẢO TRÌ & CẬP NHẬT WEBSITE
 
-The official creator landing page for **GrimdarkAscent**, an unofficial fan-made Warhammer 40,000 channel publishing immersive POV stories: "Wake up in the 41st Millennium."
+Landing page chính thức của kênh YouTube **GrimdarkAscent** — "Wake up in the 41st Millennium".
 
-Built with Next.js (App Router), TypeScript, Tailwind CSS v4, and Motion. Zero backend, zero database, zero authentication, and zero YouTube API keys required. Every episode thumbnail directly connects viewers to the official YouTube channel.
+- 🌐 **Tên miền trực tiếp (Live Site)**: [https://grimdarkascent40k.vercel.app](https://grimdarkascent40k.vercel.app)
+- 🐙 **GitHub Repository**: [https://github.com/moichan19106/grimdark-ascent](https://github.com/moichan19106/grimdark-ascent)
+- 🏛️ **Tài liệu kiến trúc hệ thống**: Chi tiết xem tại [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 ---
 
-## EDIT THESE BEFORE DEPLOYING
+## 📌 MỤC LỤC
+1. [Cập nhật Video mới (Featured & Archive)](#1-cập-nhật-video-mới)
+2. [Thay đổi cấu hình kênh, Email & Tên miền](#2-thay-đổi-cấu-hình-kênh-email--tên-miền)
+3. [Thay đổi Logo & Ảnh minh họa (Artwork)](#3-thay-đổi-logo--ảnh-minh-họa)
+4. [Chạy thử nghiệm ở máy cá nhân (Local Dev)](#4-chạy-thử-nghiệm-ở-máy-cá-nhân)
+5. [Đẩy cập nhật lên Live (Deploy to Production)](#5-đẩy-cập-nhật-lên-live)
+6. [Gắn tên miền riêng tuỳ chỉnh (Custom Domain .com / .vn)](#6-gắn-tên-miền-riêng-tuỳ-chỉnh)
 
-Open:
+---
 
+## 1. Cập nhật Video mới
+
+Tất cả video hiển thị trên website được lưu trữ tại file duy nhất:
+👉 [`src/content/videos.ts`](./src/content/videos.ts)
+
+Không cần can thiệp vào mã nguồn giao diện HTML/CSS, chỉ cần sửa danh sách video trong file này.
+
+### A. Cập nhật cụm 3 Video nổi bật đầu trang (`featuredVideos`)
+Cụm này gồm 3 video:
+- **Video 1 (Đầu tiên)**: Chiếm khung hình lớn nhất (7 cột) làm tâm điểm chính.
+- **Video 2 & 3**: Xếp chồng ở cột bên phải (5 cột).
+
+```ts
+export const featuredVideos: FeaturedVideo[] = [
+  {
+    id: "8fmUTSQtlTc", // ← Lấy ID từ link YouTube: https://www.youtube.com/watch?v=8fmUTSQtlTc
+    title: "From Psyker to Supreme Grand Master: Your Life as a Grey Knight | Warhammer 40K",
+    duration: "1:04:05", // Thời lượng video
+    category: "Transformation", // Thể loại: POV Life / Ranks & Hierarchy / Transformation / Worlds & Survival
+  },
+  // ... video 2 và video 3
+];
 ```
-src/config/site.ts
+
+### B. Cập nhật 6 Video trong Kho lưu trữ (`archiveVideos`)
+Lưới lưu trữ hiển thị 6 tập gần nhất theo bố cục nghệ thuật so le (7/5, 5/7, 7/5):
+
+```ts
+export const archiveVideos: ArchiveVideo[] = [
+  {
+    id: "H66fH7G_j0Y", // ID YouTube
+    title: "A Death Korps Guardsman's Final 17 Hours on Vraks | Warhammer 40K",
+    duration: "48:12",
+    category: "POV Life",
+  },
+  // ... thêm hoặc thay thế các video khác tại đây (tối ưu nhất là 6 video)
+];
 ```
 
-You will find these values:
+> 💡 **Mẹo lấy ID YouTube**:
+> Khi link video là `https://www.youtube.com/watch?v=t0Rul-EBtrk`, thì ID là phần sau chữ `v=`, tức là `t0Rul-EBtrk`.
+> Website sẽ **tự động lấy ảnh thumbnail chất lượng cao nhất** (`maxresdefault.jpg`) từ máy chủ YouTube mà bạn không cần phải tải ảnh về máy!
+
+---
+
+## 2. Thay đổi cấu hình kênh, Email & Tên miền
+
+Mọi thông tin liên hệ và URL chính thức được khai báo tập trung tại:
+👉 [`src/config/site.ts`](./src/config/site.ts)
 
 ```ts
 export const siteConfig = {
   name: "GrimdarkAscent",
+  // Link kênh YouTube chính thức:
   youtubeUrl: "https://www.youtube.com/@grimdarkascent40k",
   youtubeVideosUrl: "https://www.youtube.com/@grimdarkascent40k/videos",
-  xUrl: "REPLACE_WITH_X_URL",
+
+  // Link tài khoản X (Twitter): nếu chưa có để nguyên "REPLACE_WITH_X_URL" (hệ thống sẽ tự ẩn nút)
+  xUrl: "REPLACE_WITH_X_URL", // Ví dụ khi có: "https://x.com/grimdarkascent"
+
+  // Email liên hệ công việc (sẽ tạo link mailto: trực tiếp ở chân trang):
   businessEmail: "chonosuke19106@gmail.com",
-  siteUrl: "REPLACE_WITH_DEPLOYED_SITE_URL",
+
+  // Tên miền chính thức hiện tại:
+  siteUrl: "https://grimdarkascent40k.vercel.app",
 } as const;
 ```
 
-1. **YouTube URL**: Already pre-configured with the official channel link (`https://www.youtube.com/@grimdarkascent40k`).
-2. **Business Email**: Already configured with your contact email (`chonosuke19106@gmail.com`).
-3. **X URL**: Replace `"REPLACE_WITH_X_URL"` with your real X/Twitter profile link (e.g., `https://x.com/grimdarkascent`).
-4. **Deployed Domain**: Replace `"REPLACE_WITH_DEPLOYED_SITE_URL"` with your live domain (e.g., `https://grimdarkascent.com`).
+---
 
-> **Placeholder Safety**: While values begin with `REPLACE_WITH`, the site automatically hides those links so no broken links or empty mailto links are ever rendered to visitors. As soon as you fill them in, the links appear in the footer.
+## 3. Thay đổi Logo & Ảnh minh họa
+
+### A. Thay đổi Logo
+- File logo gốc nằm ở: [`public/logo.png`](./public/logo.png) (kích thước tối ưu: vuông từ 512x512 đến 1024x1024 pixel, định dạng PNG).
+- Khi bạn thay file ảnh này với cùng tên `logo.png`, website sẽ tự động cập nhật logo ở cả **Header** và **Footer**.
+- Để tạo lại bộ favicon và icon PWA đồng bộ, chạy lệnh:
+  ```bash
+  node scripts/generate-icons.mjs
+  ```
+
+### B. Thay đổi các tác phẩm minh họa trong các Section
+Tất cả 8 bức tranh minh họa độc quyền 2D cel-animation nằm trong thư mục:
+👉 [`public/art/`](./public/art/)
+
+| Tên file | Vị trí hiển thị |
+| :--- | :--- |
+| `hero-fates.png` | Banner Hero đầu trang (4 chiến binh 40K) |
+| `path-pov.png` | Cổng Fate 01: POV Lives (Chiến binh hào chiến Krieg) |
+| `path-hierarchy.png` | Cổng Fate 02: Ranks & Hierarchies (Sĩ quan Hải quân) |
+| `path-transformation.png` | Cổng Fate 03: Transformations (Các bước biến đổi Astartes) |
+| `path-worlds.png` | Cổng Fate 04: Worlds & Survival (Kẻ sống sót trên tử địa) |
+| `fate-portraits.png` | Dải 6 huy hiệu chân dung kim loại dưới mục Tuyên ngôn (Manifesto) |
+| `canon-method.png` | Bức tranh hồ sơ quân sự cổ trên bàn sắt ở mục "Lore stays intact" |
+| `final-transmission.png` | Khung cảnh hoàng hôn gothic hoành tráng ở mục kêu gọi cuối trang |
+
+Chỉ cần xuất ảnh minh họa mới đè lên file cũ với cùng tên là xong!
 
 ---
 
-## Install
+## 4. Chạy thử nghiệm ở máy cá nhân
 
-From the project root:
+Yêu cầu máy tính đã cài **Node.js** (phiên bản 18, 20 hoặc 22+).
+
+1. Cài đặt các gói thư viện (chỉ chạy lần đầu):
+   ```bash
+   npm install
+   ```
+2. Khởi chạy môi trường phát triển (Development):
+   ```bash
+   npm run dev
+   ```
+   Mở trình duyệt vào địa chỉ: [http://localhost:3000](http://localhost:3000)
+
+3. Kiểm tra lỗi chính tả TypeScript và Lint:
+   ```bash
+   npm run typecheck
+   npm run lint
+   ```
+
+4. Kiểm tra bản build production tại máy trước khi đẩy lên:
+   ```bash
+   npm run build
+   npm start
+   ```
+
+---
+
+## 5. Đẩy cập nhật lên Live
+
+Dự án đã được liên kết trực tiếp giữa **GitHub** và **Vercel**. Bạn có 2 cách cập nhật:
+
+### Cách 1: Tự động qua Git / GitHub (Khuyên dùng - Rất tiện lợi)
+Mỗi khi bạn sửa xong file (ví dụ thêm video trong `videos.ts`), chỉ cần mở terminal và chạy 3 lệnh:
 
 ```bash
-npm install
+git add .
+git commit -m "feat: cap nhat video moi"
+git push origin main
 ```
 
----
+Ngay sau khi lệnh chạy xong, Vercel sẽ tự động phát hiện commit mới trên GitHub, tự build và cập nhật trang web [https://grimdarkascent40k.vercel.app](https://grimdarkascent40k.vercel.app) chỉ trong 20-30 giây!
 
-## Development
-
-Run the local development server:
+### Cách 2: Triển khai trực tiếp qua Vercel CLI
+Nếu bạn muốn build và đẩy thẳng từ máy tính không qua Git:
 
 ```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## Production Build
-
-Compile and test the production build:
-
-```bash
-npm run build
-```
-
-Run the compiled production server locally:
-
-```bash
-npm run start
+vercel --prod
 ```
 
 ---
 
-## Deploy
+## 6. Gắn tên miền riêng tuỳ chỉnh (Custom Domain .com / .vn)
 
-This project is a standard Next.js application that can be deployed anywhere:
-- **Vercel**: Push to a GitHub repository and import into Vercel. Zero configuration required.
-- **Node.js Server**: Run `npm run build` followed by `npm run start`.
-- **Docker / Container**: Deploy with any standard Node.js Next.js container.
+Nếu sau này bạn mua tên miền riêng (ví dụ: `grimdarkascent.com` hoặc `grimdarkascent40k.com`):
 
----
-
-## Updating Videos
-
-All episode definitions are stored in a single, easily editable configuration file:
-
-```
-src/content/videos.ts
-```
-
-### 1. Featured Doors (`featuredVideos`)
-The three primary video entries displayed in the hero "Start with a fate" section:
-- The first entry is the dominant 7-column feature.
-- The next two entries stack in the 5-column secondary column.
-
-### 2. Archive Mosaic (`archiveVideos`)
-The six recent episodes displayed in the editorial mosaic grid:
-
-```ts
-{
-  id: "Z-lkyZ062pc",              // YouTube video ID (from youtube.com/watch?v=...)
-  title: "POV: Your Life as an Ultramarine Space Marine",
-  duration: "54:31",              // Display duration
-  category: "POV Life",           // Category label
-  isLatest: true,                 // Optional: marks the latest episode for the hero CTA
-}
-```
-
-* **Automatic Thumbnails**: YouTube thumbnails are loaded directly from YouTube CDN (`https://i.ytimg.com/vi/<id>/maxresdefault.jpg`). No manual image uploading required.
-* **Direct Links**: Clicking any thumbnail or title opens the video directly on YouTube.
-
----
-
-## Replacing Custom Artwork
-
-All custom illustrations live in:
-
-```
-public/art/
-```
-
-The site uses a unified 2D cel-animated graphic novel aesthetic with clean black ink outlines, two-level cel shading, and a dark grimdark palette:
-
-| File | Section | Description & Proportions |
-|---|---|---|
-| `hero-fates.png` | Hero | Wide 16:9 canvas composition showing four distinct lives across a battlefield. Left 35% is dark negative space for headline typography. |
-| `path-pov.png` | Fate Gate 1 | Vertical 3:4 panel: Lone Death Korps trench infantryman advancing through gothic rubble. |
-| `path-hierarchy.png` | Fate Gate 2 | Vertical 3:4 panel: Imperial Naval hierarchy (enlisted, commander, admiral). |
-| `path-transformation.png` | Fate Gate 3 | Vertical 3:4 panel: One subject across 3 stages of Space Marine transformation. |
-| `path-worlds.png` | Fate Gate 4 | Vertical 3:4 panel: Lone survivor overlooking a lethal alien death world. |
-| `fate-portraits.png` | Manifesto | Wide panoramic strip showing six circular medal bust portraits on a dark neutral background. |
-| `canon-method.png` | Method | Asymmetric dossier artifact: Imperial archive desk with parchment, star-charts, and candlelight. |
-| `final-transmission.png` | Final CTA | Wide 16:9 cinematic dusk horizon over ruined gothic spires with silhouetted warriors on the ridge. |
-
-To replace artwork, simply drop new images with matching filenames into `public/art/`.
-
----
-
-## Project Structure
-
-```
-├── public/
-│   ├── art/                   # Custom 2D animated illustrations
-│   ├── icons/                 # PWA application icons
-│   ├── favicon.ico
-│   ├── icon.svg
-│   └── og.jpg                 # OpenGraph social card image
-├── src/
-│   ├── app/
-│   │   ├── globals.css        # Tailwind v4 theme and locked color system
-│   │   ├── layout.tsx         # Root layout, fonts, and SEO metadata
-│   │   ├── not-found.tsx      # Branded 404 error page
-│   │   ├── page.tsx           # Single-page editorial landing layout
-│   │   └── sitemap.ts         # Dynamic sitemap generator
-│   ├── components/
-│   │   └── site/
-│   │       ├── header.tsx           # Minimal sticky navigation
-│   │       ├── hero.tsx             # Off-grid image-as-canvas hero
-│   │       ├── descriptor-strip.tsx # 3-item format descriptor rail
-│   │       ├── featured-episodes.tsx# 12-column editorial featured grid
-│   │       ├── choose-your-path.tsx # The Four Fate Gates interactive panels
-│   │       ├── manifesto.tsx        # 3-line staggered brand manifesto
-│   │       ├── canon-method.tsx     # Asymmetric dossier archive layout
-│   │       ├── episode-archive.tsx  # 12-column editorial mosaic archive
-│   │       ├── final-cta.tsx        # Cinematic transmission CTA
-│   │       ├── footer.tsx           # Clean creator footer
-│   │       ├── back-to-top.tsx      # Smooth scroll-to-top utility
-│   │       ├── reveal.tsx           # Scroll reveal animation wrapper
-│   │       └── section-heading.tsx  # Editorial section header primitive
-│   ├── config/
-│   │   └── site.ts            # Central site and contact configuration
-│   ├── content/
-│   │   └── videos.ts          # Central YouTube episode content list
-│   └── lib/
-│       └── utils.ts           # Classnames helper (cn)
-├── next.config.ts             # Next.js configuration
-├── package.json               # Cleaned dependencies and scripts
-└── tsconfig.json              # TypeScript configuration
-```
-
----
-
-## License & Disclaimer
-
-GrimdarkAscent is an unofficial fan-made channel and website. Warhammer 40,000 and related marks, names, and images belong to Games Workshop Limited.
+1. Truy cập vào trang quản lý dự án trên Vercel:
+   👉 [https://vercel.com/moichan19106s-projects/grimdark-archive-source/settings/domains](https://vercel.com/moichan19106s-projects/grimdark-archive-source/settings/domains)
+2. Nhập tên miền bạn đã mua (ví dụ `grimdarkascent.com`) và bấm **Add**.
+3. Cài đặt bản ghi DNS tại nhà cung cấp tên miền của bạn (Namecheap, Cloudflare, GoDaddy, v.v.) theo hướng dẫn trên màn hình Vercel:
+   - **Type**: `A` | **Name**: `@` | **Value**: `76.76.21.21`
+   - **Type**: `CNAME` | **Name**: `www` | **Value**: `cname.vercel-dns.com`
+4. Cập nhật lại dòng `siteUrl` trong [`src/config/site.ts`](./src/config/site.ts) thành tên miền mới:
+   ```ts
+   siteUrl: "https://grimdarkascent.com",
+   ```
+5. Đẩy lên GitHub (`git commit` & `git push`) là website sẽ tự động cập nhật toàn bộ SEO, Canonical URL và Sitemap theo tên miền mới!

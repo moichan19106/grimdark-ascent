@@ -4,7 +4,7 @@ export const siteConfig = {
   youtubeVideosUrl: "https://www.youtube.com/@grimdarkascent40k/videos",
   xUrl: "REPLACE_WITH_X_URL",
   businessEmail: "chonosuke19106@gmail.com",
-  siteUrl: "REPLACE_WITH_DEPLOYED_SITE_URL",
+  siteUrl: "https://grimdarkascent40k.vercel.app",
 } as const;
 
 /**

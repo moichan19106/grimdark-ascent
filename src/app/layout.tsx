@@ -20,7 +20,7 @@ const barlowCondensed = Barlow_Condensed({
 });
 
 const siteUrl = isPlaceholder(siteConfig.siteUrl)
-  ? "https://grimdarkascent.com"
+  ? "https://grimdarkascent40k.vercel.app"
   : siteConfig.siteUrl;
 
 export const metadata: Metadata = {
